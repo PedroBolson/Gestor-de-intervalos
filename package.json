@@ -1,0 +1,14 @@
+{
+  "name": "gerenciador-de-intervalos",
+  "version": "1.0.0",
+  "description": "Gerenciador de intervalos com HTML, CSS e TypeScript",
+  "main": "app.js",
+  "scripts": {
+    "build": "tsc"
+  },
+  "author": "Pedro Bolson",
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "^5.7.3"
+  }
+}

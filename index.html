@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestor de intervalos</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Audiowide&family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&family=Shadows+Into+Light&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="./src/styles/main.css" />
+</head>
+
+<body>
+    <header>
+        <h1>Gerenciador de intervalos</h1>
+        <p>Adicione e gerencie intervalos numéricos contínuos</p>
+    </header>
+    <main>
+        <section>
+            <form id="formIntervalos">
+                <div class="linhaInput">
+
+                    <div class="grupoInput">
+                        <label for="inicio">Início</label>
+                        <input type="number" id="inicio" name="inicio" placeholder="Digite o começo do seu intervalo!"
+                            required>
+                    </div>
+
+                    <div class="grupoInput">
+                        <label for="fim">Fim</label>
+                        <input type="number" id="fim" name="fim" placeholder="Digite o final de seu intevalo!" required>
+                    </div>
+
+                </div>
+                <div class="btnForm">
+                    <button id="btnAddicionar">Adicionar intervalo</button>
+                    <button id="btnEditar">Editar último intervalo</button>
+                </div>
+
+            </form>
+            <p id="mensagemErro" class="erro"></p>
+        </section>
+        <div class="intervalos">
+            <section>
+                <h2>Intervalos cadastrados</h2>
+                <ul id="listaIntervalos">
+                </ul>
+            </section>
+            <section class="btnExtra">
+                <button id="btnExcluir">Excluir último intervalo</button>
+            </section>
+        </div>
+    </main>
+    <footer>
+        <p>&#169 2025 Pedro Bolson.</p>
+    </footer>
+    <script src="./dist/script/app.js"></script>
+</body>
+
+</html>
