@@ -12,7 +12,11 @@ function renderLista() {
     intervalos.forEach((intervalo) => {
         const li = document.createElement("li");
         li.textContent = `Intervalo: [${intervalo.inicio}, ${intervalo.fim}]`;
+        li.classList.add("itemList");
         listaIntervalos.appendChild(li);
+        setTimeout(() => {
+            li.classList.remove("itemList");
+        }, 1000);
     });
 }
 function adicionarIntervalo(inicio, fim) {
@@ -36,10 +40,6 @@ function adicionarIntervalo(inicio, fim) {
     }
     intervalos.push({ inicio, fim });
     renderLista();
-    listaIntervalos.classList.add("highlight");
-    setTimeout(() => {
-        listaIntervalos.classList.remove("highlight");
-    }, 1500);
 }
 function editarUltimoIntervalo() {
     if (intervalos.length === 0) {
@@ -78,9 +78,11 @@ function editarUltimoIntervalo() {
     ultimo.inicio = novoInicio;
     ultimo.fim = novoFim;
     renderLista();
-    listaIntervalos.classList.add("highlight");
+    const listaItens = document.getElementsByTagName("li");
+    const ultimoLi = listaItens[listaItens.length - 1];
+    ultimoLi.classList.add("highlight");
     setTimeout(() => {
-        listaIntervalos.classList.remove("highlight");
+        ultimoLi.classList.remove("highlight");
     }, 1500);
 }
 function removerUltimoIntervalo() {

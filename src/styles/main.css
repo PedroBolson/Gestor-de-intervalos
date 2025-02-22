@@ -187,7 +187,8 @@ form button:hover{
     margin-top: .5rem;
 }
 
-.highlight {
+.highlight,
+.itemList {
     animation: highlight-item 1.5s ease-in-out forwards;
 }
 

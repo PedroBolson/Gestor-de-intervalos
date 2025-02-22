@@ -19,7 +19,12 @@ function renderLista(): void {
     intervalos.forEach((intervalo) => {
         const li = document.createElement("li");
         li.textContent = `Intervalo: [${intervalo.inicio}, ${intervalo.fim}]`;
+        li.classList.add("itemList");
         listaIntervalos.appendChild(li);
+
+        setTimeout(() => {
+            li.classList.remove("itemList");
+        }, 1000);
     });
 }
 
@@ -44,11 +49,6 @@ function adicionarIntervalo(inicio: number, fim: number): void {
     }
     intervalos.push({ inicio, fim });
     renderLista();
-
-    listaIntervalos.classList.add("highlight");
-    setTimeout(() => {
-        listaIntervalos.classList.remove("highlight");
-    }, 1500);
 }
 
 
@@ -94,45 +94,50 @@ function editarUltimoIntervalo(): void {
     ultimo.fim = novoFim;
     renderLista();
 
-    listaIntervalos.classList.add("highlight");
+
+    const listaItens = document.getElementsByTagName("li");
+    const ultimoLi = listaItens[listaItens.length - 1];
+    ultimoLi.classList.add("highlight");
+
     setTimeout(() => {
-        listaIntervalos.classList.remove("highlight");
+        ultimoLi.classList.remove("highlight");
     }, 1500);
 }
 
-function removerUltimoIntervalo(): void {
-    if (intervalos.length === 0) {
-        mensagemErro.textContent = "Não há intervalos para remover.";
-        return;
+
+    function removerUltimoIntervalo(): void {
+        if (intervalos.length === 0) {
+            mensagemErro.textContent = "Não há intervalos para remover.";
+            return;
+        }
+
+        intervalos.pop();
+        renderLista();
     }
 
-    intervalos.pop();
-    renderLista();
-}
+    btnAdicionar.addEventListener("click", (event) => {
+        event.preventDefault();
 
-btnAdicionar.addEventListener("click", (event) => {
-    event.preventDefault();
+        const inicio = parseFloat(inputInicio.value);
+        const fim = parseFloat(inputFim.value);
 
-    const inicio = parseFloat(inputInicio.value);
-    const fim = parseFloat(inputFim.value);
+        adicionarIntervalo(inicio, fim);
 
-    adicionarIntervalo(inicio, fim);
-
-    inputInicio.value = "";
-    inputFim.value = "";
-});
+        inputInicio.value = "";
+        inputFim.value = "";
+    });
 
 
-btnEditar.addEventListener("click", (event) => {
-    event.preventDefault();
-    editarUltimoIntervalo();
+    btnEditar.addEventListener("click", (event) => {
+        event.preventDefault();
+        editarUltimoIntervalo();
 
-    inputInicio.value = "";
-    inputFim.value = "";
-});
+        inputInicio.value = "";
+        inputFim.value = "";
+    });
 
 
-btnExcluir.addEventListener("click", (event) => {
-    event.preventDefault();
-    removerUltimoIntervalo();
-});
+    btnExcluir.addEventListener("click", (event) => {
+        event.preventDefault();
+        removerUltimoIntervalo();
+    });
