@@ -7,16 +7,18 @@ const mensagemErro = document.getElementById("mensagemErro");
 const btnAdicionar = document.getElementById("btnAddicionar");
 const btnEditar = document.getElementById("btnEditar");
 const btnExcluir = document.getElementById("btnExcluir");
-function renderLista() {
+function renderLista(novoItem = false) {
     listaIntervalos.innerHTML = '';
     intervalos.forEach((intervalo) => {
         const li = document.createElement("li");
         li.textContent = `Intervalo: [${intervalo.inicio}, ${intervalo.fim}]`;
-        li.classList.add("itemList");
         listaIntervalos.appendChild(li);
-        setTimeout(() => {
-            li.classList.remove("itemList");
-        }, 1000);
+        if (novoItem) {
+            li.classList.add("itemList");
+            setTimeout(() => {
+                li.classList.remove("itemList");
+            }, 1000);
+        }
     });
 }
 function adicionarIntervalo(inicio, fim) {
@@ -39,7 +41,7 @@ function adicionarIntervalo(inicio, fim) {
         }
     }
     intervalos.push({ inicio, fim });
-    renderLista();
+    renderLista(true);
 }
 function editarUltimoIntervalo() {
     if (intervalos.length === 0) {

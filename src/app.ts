@@ -14,17 +14,18 @@ const btnAdicionar = document.getElementById("btnAddicionar") as HTMLButtonEleme
 const btnEditar = document.getElementById("btnEditar") as HTMLButtonElement;
 const btnExcluir = document.getElementById("btnExcluir") as HTMLButtonElement;
 
-function renderLista(): void {
+function renderLista(novoItem: boolean = false): void {
     listaIntervalos.innerHTML = '';
     intervalos.forEach((intervalo) => {
         const li = document.createElement("li");
         li.textContent = `Intervalo: [${intervalo.inicio}, ${intervalo.fim}]`;
-        li.classList.add("itemList");
         listaIntervalos.appendChild(li);
-
-        setTimeout(() => {
-            li.classList.remove("itemList");
-        }, 1000);
+        if(novoItem){
+            li.classList.add("itemList");
+            setTimeout(() => {
+                li.classList.remove("itemList");
+            }, 1000);
+        }
     });
 }
 
@@ -48,7 +49,7 @@ function adicionarIntervalo(inicio: number, fim: number): void {
         }
     }
     intervalos.push({ inicio, fim });
-    renderLista();
+    renderLista(true);
 }
 
 
