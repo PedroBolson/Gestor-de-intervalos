@@ -14,48 +14,74 @@ const btnAdicionar = document.getElementById("btnAddicionar") as HTMLButtonEleme
 const btnEditar = document.getElementById("btnEditar") as HTMLButtonElement;
 const btnExcluir = document.getElementById("btnExcluir") as HTMLButtonElement;
 
-function renderLista(novoItem: boolean = false): void {
+function renderLista(): void {
     listaIntervalos.innerHTML = '';
     intervalos.forEach((intervalo) => {
         const li = document.createElement("li");
         li.textContent = `Intervalo: [${intervalo.inicio}, ${intervalo.fim}]`;
         listaIntervalos.appendChild(li);
-        if(novoItem){
-            li.classList.add("itemList");
-            setTimeout(() => {
-                li.classList.remove("itemList");
-            }, 1000);
-        }
     });
+}
+
+function typeEfeito(mensagem: string, elemento: HTMLElement): void {
+    elemento.innerHTML = '';
+    elemento.classList.add('digitando');
+
+    let i = 0;
+    const velocidade = 50;
+
+    function adicionarCaractere() {
+        if (i < mensagem.length) {
+            elemento.textContent += mensagem.charAt(i);
+            i++;
+            setTimeout(adicionarCaractere, velocidade);
+        } else {
+            elemento.classList.remove('digitando');
+        }
+    }
+    adicionarCaractere();
 }
 
 function adicionarIntervalo(inicio: number, fim: number): void {
     mensagemErro.textContent = "";
 
     if (inicio >= fim) {
-        mensagemErro.textContent = "O início deve ser menor que o fim!";
+        typeEfeito("O início deve ser menor que o fim!", mensagemErro);
         return;
     }
     if (intervalos.length === 0) {
         if (inicio !== 0) {
-            mensagemErro.textContent = "O primeiro intervalo deve começar em 0!";
+            typeEfeito("O primeiro intervalo deve começar em 0!", mensagemErro);
             return;
         }
     } else {
         const ultimoIntervalo = intervalos[intervalos.length - 1];
         if (inicio !== ultimoIntervalo.fim) {
-            mensagemErro.textContent = `O novo intervalo deve começar em ${ultimoIntervalo.fim}`;
+            typeEfeito(`O novo intervalo deve começar em ${ultimoIntervalo.fim}`, mensagemErro);
             return;
         }
     }
+
+
     intervalos.push({ inicio, fim });
-    renderLista(true);
+    renderLista();
+
+    const todosItens = document.querySelectorAll('#listaIntervalos li');
+    const ultimoItem = todosItens[todosItens.length - 1] as HTMLElement;
+    ultimoItem.classList.add("itemList");
+
+    setTimeout(() => {
+        ultimoItem.classList.remove("itemList");
+    }, 500);
+
+    inputInicio.value = "";
+    inputFim.value = "";
 }
 
 
 function editarUltimoIntervalo(): void {
     if (intervalos.length === 0) {
-        mensagemErro.textContent = "Não há intervalos para editar!";
+        typeEfeito("Não há intervalos para editar!", mensagemErro);
         return;
     }
 
@@ -65,28 +91,28 @@ function editarUltimoIntervalo(): void {
     const novoFim = parseFloat(inputFim.value);
 
     if (isNaN(novoInicio)) {
-        mensagemErro.textContent = "Valor de início inválido!";
+        typeEfeito("Valor de início inválido!", mensagemErro);
         return;
     }
     if (isNaN(novoFim)) {
-        mensagemErro.textContent = "Valor de fim inválido!";
+        typeEfeito("Valor de fim inválido!", mensagemErro);
         return;
     }
 
     if (novoInicio >= novoFim) {
-        mensagemErro.textContent = "O início deve ser menor que o fim.";
+        typeEfeito("O início deve ser menor que o fim.", mensagemErro);
         return;
     }
 
     if (intervalos.length === 1) {
         if (novoInicio !== 0) {
-            mensagemErro.textContent = "O primeiro intervalo deve começar em 0!";
+            typeEfeito("O primeiro intervalo deve começar em 0!", mensagemErro);
             return;
         }
     } else {
         const penultimo = intervalos[intervalos.length - 2];
         if (novoInicio !== penultimo.fim) {
-            mensagemErro.textContent = `O novo início deve ser igual a ${penultimo.fim}.`;
+            typeEfeito(`O novo início deve ser igual a ${penultimo.fim}.`, mensagemErro);
             return;
         }
     }
@@ -106,44 +132,41 @@ function editarUltimoIntervalo(): void {
 }
 
 
-    function removerUltimoIntervalo(): void {
-        if (intervalos.length === 0) {
-            mensagemErro.textContent = "Não há intervalos para remover.";
-            return;
-        }
-        
-        const listaItens = document.getElementsByTagName("li");
-        const ultimoLi = listaItens[listaItens.length - 1];
-        ultimoLi.classList.add("fadeOut");
-        setTimeout(() => {
-            intervalos.pop();
-            renderLista();
-        }, 500);
+function removerUltimoIntervalo(): void {
+    if (intervalos.length === 0) {
+        typeEfeito("Não há intervalos para remover.", mensagemErro);
+        return;
     }
 
-    btnAdicionar.addEventListener("click", (event) => {
-        event.preventDefault();
+    const listaItens = document.getElementsByTagName("li");
+    const ultimoLi = listaItens[listaItens.length - 1];
+    ultimoLi.classList.add("fadeOut");
+    setTimeout(() => {
+        intervalos.pop();
+        renderLista();
+    }, 500);
+}
 
-        const inicio = parseFloat(inputInicio.value);
-        const fim = parseFloat(inputFim.value);
+btnAdicionar.addEventListener("click", (event) => {
+    event.preventDefault();
 
-        adicionarIntervalo(inicio, fim);
+    const inicio = parseFloat(inputInicio.value);
+    const fim = parseFloat(inputFim.value);
 
-        inputInicio.value = "";
-        inputFim.value = "";
-    });
-
-
-    btnEditar.addEventListener("click", (event) => {
-        event.preventDefault();
-        editarUltimoIntervalo();
-
-        inputInicio.value = "";
-        inputFim.value = "";
-    });
+    adicionarIntervalo(inicio, fim);
+});
 
 
-    btnExcluir.addEventListener("click", (event) => {
-        event.preventDefault();
-        removerUltimoIntervalo();
-    });
+btnEditar.addEventListener("click", (event) => {
+    event.preventDefault();
+    editarUltimoIntervalo();
+
+    inputInicio.value = "";
+    inputFim.value = "";
+});
+
+
+btnExcluir.addEventListener("click", (event) => {
+    event.preventDefault();
+    removerUltimoIntervalo();
+});
