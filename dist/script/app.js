@@ -92,8 +92,15 @@ function removerUltimoIntervalo() {
         mensagemErro.textContent = "Não há intervalos para remover.";
         return;
     }
-    intervalos.pop();
-    renderLista();
+    // intervalos.pop();
+    // renderLista();
+    const listaItens = document.getElementsByTagName("li");
+    const ultimoLi = listaItens[listaItens.length - 1];
+    ultimoLi.classList.add("fadeOut");
+    setTimeout(() => {
+        intervalos.pop();
+        renderLista();
+    }, 500);
 }
 btnAdicionar.addEventListener("click", (event) => {
     event.preventDefault();
