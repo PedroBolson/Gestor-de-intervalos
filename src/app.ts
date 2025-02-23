@@ -129,6 +129,8 @@ function editarUltimoIntervalo(): void {
     setTimeout(() => {
         ultimoLi.classList.remove("highlight");
     }, 1500);
+    inputInicio.value = "";
+    inputFim.value = "";
 }
 
 
@@ -160,9 +162,6 @@ btnAdicionar.addEventListener("click", (event) => {
 btnEditar.addEventListener("click", (event) => {
     event.preventDefault();
     editarUltimoIntervalo();
-
-    inputInicio.value = "";
-    inputFim.value = "";
 });
 
 
