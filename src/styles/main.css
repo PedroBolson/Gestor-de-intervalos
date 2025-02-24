@@ -12,15 +12,16 @@
     --text: #ffffff;
 }
 
-body{
+body {
     font-family: "Nunito Sans", serif;
     background: var(--background);
     line-height: 2;
     padding: 1rem;
+    overflow-y: hidden;
 }
 
-header{
-    text-align:  center;
+header {
+    text-align: center;
     margin-bottom: 2rem;
     color: var(--text);
 }
@@ -29,7 +30,7 @@ header p {
     font-size: 1.2rem;
 }
 
-header h1{
+header h1 {
     font-family: "Josefin Sans", serif;
     font-size: 3rem;
     font-weight: 700;
@@ -40,7 +41,7 @@ main {
     margin: 0 auto;
 }
 
-section{
+section {
     background: var(--secondary);
     padding: 1rem;
     margin-bottom: 1rem;
@@ -55,25 +56,26 @@ form {
     color: var(--text)
 }
 
-.linhaInput{
+.linhaInput {
     display: flex;
     gap: 1rem;
     width: 100%;
 }
 
-.grupoInput{
+.grupoInput {
     flex: 1;
     display: flex;
     flex-direction: column;
 }
-form label{
+
+form label {
     font-weight: 700;
     margin-bottom: 0;
     font-size: 15px;
 }
 
 
-form input[type="number"]{
+form input[type="number"] {
     padding: .5rem;
     font-size: 1rem;
     width: 100%;
@@ -84,36 +86,36 @@ form input[type="number"]{
 form input[type="number"]:focus {
     border-color: black;
     outline: 1px;
-    box-shadow: 0 2px 13px black; 
+    box-shadow: 0 2px 13px black;
 }
 
 
-form input[type="number"]::-webkit-inner-spin-button,
-form input[type="number"]::-webkit-outer-spin-button {
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
     -webkit-appearance: none;
     margin: 0;
 }
 
-#listaIntervalos{
+#listaIntervalos {
     text-align: center;
     list-style: none;
     padding-left: 0;
     border-radius: 20px;
 }
 
-.intervalos{
+.intervalos {
     display: flex;
     gap: 1rem;
     align-items: flex-start;
 }
 
-.intervalos > section:first-child{
+.intervalos>section:first-child {
     flex: 2;
     min-width: 0;
-    
+
 }
 
-.intervalos h2{
+.intervalos h2 {
     text-align: center;
     font-weight: 700;
     color: var(--text);
@@ -129,7 +131,6 @@ form input[type="number"]::-webkit-outer-spin-button {
     font-size: 17px;
     margin-bottom: 10px;
     transition: all 0.3s ease;
-    cursor: pointer;
 }
 
 #listaIntervalos li:hover {
@@ -138,10 +139,19 @@ form input[type="number"]::-webkit-outer-spin-button {
     color: var(--text);
 }
 
-.btnExtra{
-    background: none;
-    display: flex;
-    max-width: 220px;
+#listaIntervalos li.editavel {
+    cursor: pointer;
+    user-select: none;
+}
+
+#listaIntervalos li.nao-editavel {
+    background-color: #d3d3d3;
+    cursor: not-allowed;
+    user-select: none;
+}
+
+button {
+    border-radius: 50px;
 }
 
 #btnExcluir,
@@ -151,41 +161,30 @@ form button {
     margin: auto;
     cursor: pointer;
     font-weight: 700;
-    border-radius: 50px;
 }
 
-.btnForm{
-    display: flex;
-    flex-direction: row;
-    gap: 10px;
+#btnExcluir {
+    box-shadow: 0px 2px 5px white;
 }
 
 form button {
     background-color: #7DE6C8;
 }
 
-form button:hover{
+form button:hover {
     background-color: #02E6A5;
 }
 
-#btnEditar{
-    background-color: lightyellow;
-}
-
-#btnEditar:hover{
-    background-color: yellow;
-}
-
-#btnExcluir{
+#btnExcluir {
     background-color: lightsalmon;
 }
 
-#btnExcluir:hover{
+#btnExcluir:hover {
     background-color: red;
 }
 
 button {
-    transition: 
+    transition:
         transform 0.2s ease,
         box-shadow 0.2s ease,
         background-color 0.3s;
@@ -196,9 +195,79 @@ button:hover {
     box-shadow: 0 5px 20px;
 }
 
-button:active {
+#btnExcluir:hover,
+.modal-buttons button:hover {
+    box-shadow: 0px 2px 20px white;
+}
+
+
+button:active,
+.modal-buttons button:active {
     transform: translateY(1px);
     box-shadow: 0 5px 5px;
+}
+
+#btnExcluir:active {
+    box-shadow: 0px 2px 5px white;
+}
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    /* fundo preto semitransparente */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    backdrop-filter: blur(8px);
+    /* aplica blur ao fundo */
+}
+
+.modal.hidden {
+    display: none;
+}
+
+.modal-content {
+    background: var(--background);
+    padding: 1rem;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    color: #fff;
+}
+
+.modal-content label {
+    display: block;
+    margin-top: 0.5rem;
+    color: #fff;
+}
+
+.modal-content input {
+    width: 100%;
+    padding: 0.5rem;
+    margin-top: 0.3rem;
+    border: none;
+    border-radius: 4px;
+}
+
+.modal-buttons {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: space-between;
+}
+
+.modal-buttons button {
+    box-shadow: 0px 2px 5px white;
+    padding: 0.5rem 1rem;
+    border: none;
+    cursor: pointer;
+    margin: 0 5px;
 }
 
 .erro {
@@ -207,20 +276,20 @@ button:active {
     margin-top: .5rem;
 }
 
-footer{
+footer {
     text-align: center;
     color: var(--text);
 }
 
-.highlight{
+.highlight {
     animation: highlightItem 1.5s ease-in-out forwards;
 }
 
-.fadeOut{
+.fadeOut {
     animation: fadeOut .5s ease-out forwards;
 }
 
-.itemList{
+.itemList {
     animation: slideIn .5s ease-out;
 }
 
@@ -230,15 +299,101 @@ footer{
     margin-left: 2px;
 }
 
+.circle {
+    position: absolute;
+    border-radius: 50%;
+    background: white;
+    animation: ripple 15s infinite;
+    box-shadow: 0px 0px 1px 0px #508fb9;
+}
+
+.small {
+    width: 200px;
+    height: 200px;
+    left: -100px;
+    bottom: -100px;
+}
+
+.medium {
+    width: 400px;
+    height: 400px;
+    left: -200px;
+    bottom: -200px;
+}
+
+.large {
+    width: 600px;
+    height: 600px;
+    left: -300px;
+    bottom: -300px;
+}
+
+.xlarge {
+    width: 800px;
+    height: 800px;
+    left: -400px;
+    bottom: -400px;
+}
+
+.xxlarge {
+    width: 1000px;
+    height: 1000px;
+    left: -500px;
+    bottom: -500px;
+}
+
+.shade1 {
+    opacity: 0.2;
+}
+
+.shade2 {
+    opacity: 0.5;
+}
+
+.shade3 {
+    opacity: 0.7;
+}
+
+.shade4 {
+    opacity: 0.8;
+}
+
+.shade5 {
+    opacity: 0.9;
+}
+
+@keyframes ripple {
+    0% {
+        transform: scale(0.8);
+    }
+
+    50% {
+        transform: scale(1.2);
+    }
+
+    100% {
+        transform: scale(0.8);
+    }
+}
+
+
 @keyframes cursorPiscando {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0; }
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0;
+    }
 }
 
 @keyframes highlightItem {
     0% {
         box-shadow: 0px 0px 25px;
     }
+
     100% {
         box-shadow: 2px 2px 5px;
     }
@@ -249,6 +404,7 @@ footer{
         opacity: 1;
         transform: scale(1) translateX(0);
     }
+
     100% {
         opacity: 0;
         transform: scale(.5) translateX(-100%);
@@ -260,6 +416,7 @@ footer{
         opacity: 0;
         transform: scale(.5) translateX(-100%);
     }
+
     100% {
         opacity: 1;
         transform: scale(1) translateX(0);

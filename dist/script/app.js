@@ -7,11 +7,23 @@ const mensagemErro = document.getElementById("mensagemErro");
 const btnAdicionar = document.getElementById("btnAddicionar");
 const btnEditar = document.getElementById("btnEditar");
 const btnExcluir = document.getElementById("btnExcluir");
+const modalEditar = document.getElementById("modalEditar");
+const modalInicio = document.getElementById("modalInicio");
+const modalFim = document.getElementById("modalFim");
+const modalSalvar = document.getElementById("modalSalvar");
+const modalCancelar = document.getElementById("modalCancelar");
 function renderLista() {
     listaIntervalos.innerHTML = '';
-    intervalos.forEach((intervalo) => {
+    intervalos.forEach((intervalo, index) => {
         const li = document.createElement("li");
         li.textContent = `Intervalo: [${intervalo.inicio}, ${intervalo.fim}]`;
+        if (index === intervalos.length - 1) {
+            li.classList.add("editavel");
+            li.addEventListener("click", abrirModalEdicao);
+        }
+        else {
+            li.classList.add("nao-editavel");
+        }
         listaIntervalos.appendChild(li);
     });
 }
@@ -62,14 +74,22 @@ function adicionarIntervalo(inicio, fim) {
     inputInicio.value = "";
     inputFim.value = "";
 }
-function editarUltimoIntervalo() {
+function abrirModalEdicao() {
     if (intervalos.length === 0) {
         typeEfeito("Não há intervalos para editar!", mensagemErro);
         return;
     }
-    mensagemErro.textContent = "";
-    const novoInicio = parseFloat(inputInicio.value);
-    const novoFim = parseFloat(inputFim.value);
+    const ultimo = intervalos[intervalos.length - 1];
+    modalInicio.value = ultimo.inicio.toString();
+    modalFim.value = ultimo.fim.toString();
+    modalEditar.classList.remove("hidden");
+}
+function fecharModalEdicao() {
+    modalEditar.classList.add("hidden");
+}
+modalSalvar.addEventListener("click", () => {
+    const novoInicio = parseFloat(modalInicio.value);
+    const novoFim = parseFloat(modalFim.value);
     if (isNaN(novoInicio)) {
         typeEfeito("Valor de início inválido!", mensagemErro);
         return;
@@ -98,16 +118,18 @@ function editarUltimoIntervalo() {
     const ultimo = intervalos[intervalos.length - 1];
     ultimo.inicio = novoInicio;
     ultimo.fim = novoFim;
+    fecharModalEdicao();
     renderLista();
-    const listaItens = document.getElementsByTagName("li");
+    const listaItens = document.querySelectorAll('#listaIntervalos li');
     const ultimoLi = listaItens[listaItens.length - 1];
     ultimoLi.classList.add("highlight");
     setTimeout(() => {
         ultimoLi.classList.remove("highlight");
     }, 1500);
-    inputInicio.value = "";
-    inputFim.value = "";
-}
+});
+modalCancelar.addEventListener("click", () => {
+    fecharModalEdicao();
+});
 function removerUltimoIntervalo() {
     if (intervalos.length === 0) {
         typeEfeito("Não há intervalos para remover.", mensagemErro);
@@ -126,10 +148,6 @@ btnAdicionar.addEventListener("click", (event) => {
     const inicio = parseFloat(inputInicio.value);
     const fim = parseFloat(inputFim.value);
     adicionarIntervalo(inicio, fim);
-});
-btnEditar.addEventListener("click", (event) => {
-    event.preventDefault();
-    editarUltimoIntervalo();
 });
 btnExcluir.addEventListener("click", (event) => {
     event.preventDefault();
