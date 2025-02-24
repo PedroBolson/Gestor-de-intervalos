@@ -4,9 +4,17 @@
     box-sizing: border-box;
 }
 
+:root {
+    --primary: #7209b7;
+    --secondary: #480ca8;
+    --accent: #f72585;
+    --background: linear-gradient(145deg, #2d2d2d 0%, #1a1a1a 100%);
+    --text: #ffffff;
+}
+
 body{
     font-family: "Nunito Sans", serif;
-    background: #0292E6;
+    background: var(--background);
     line-height: 2;
     padding: 1rem;
 }
@@ -14,7 +22,7 @@ body{
 header{
     text-align:  center;
     margin-bottom: 2rem;
-    color: black;
+    color: var(--text);
 }
 
 header p {
@@ -33,7 +41,7 @@ main {
 }
 
 section{
-    background: #fff;
+    background: var(--secondary);
     padding: 1rem;
     margin-bottom: 1rem;
     border-radius: 15px;
@@ -44,6 +52,7 @@ form {
     flex-direction: column;
     gap: .5rem;
     align-items: center;
+    color: var(--text)
 }
 
 .linhaInput{
@@ -73,10 +82,10 @@ form input[type="number"]{
 }
 
 form input[type="number"]:focus {
-    border-color: cyan;
-    outline: none;
-    box-shadow: 0 2px 13px blue; 
-  }
+    border-color: black;
+    outline: 1px;
+    box-shadow: 0 2px 13px black; 
+}
 
 
 form input[type="number"]::-webkit-inner-spin-button,
@@ -107,6 +116,7 @@ form input[type="number"]::-webkit-outer-spin-button {
 .intervalos h2{
     text-align: center;
     font-weight: 700;
+    color: var(--text);
 }
 
 #listaIntervalos li {
@@ -118,10 +128,18 @@ form input[type="number"]::-webkit-outer-spin-button {
     border-radius: 20px;
     font-size: 17px;
     margin-bottom: 10px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+#listaIntervalos li:hover {
+    transform: translateX(10px);
+    background: linear-gradient(90deg, var(--accent) 0%, transparent 100%);
+    color: var(--text);
 }
 
 .btnExtra{
-    background: #0292E6;
+    background: none;
     display: flex;
     max-width: 220px;
 }
@@ -166,6 +184,23 @@ form button:hover{
     background-color: red;
 }
 
+button {
+    transition: 
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        background-color 0.3s;
+}
+
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 20px;
+}
+
+button:active {
+    transform: translateY(1px);
+    box-shadow: 0 5px 5px;
+}
+
 .erro {
     color: red;
     font-weight: 700;
@@ -174,6 +209,7 @@ form button:hover{
 
 footer{
     text-align: center;
+    color: var(--text);
 }
 
 .highlight{
